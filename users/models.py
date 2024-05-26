@@ -15,12 +15,13 @@ class User(AbstractUser):
     city = models.CharField(max_length=50)
     avatar = models.ImageField(upload_to='users/', **NULLABLE)
 
+
 class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     summ = models.PositiveIntegerField()
+    payment_method = models.CharField(choices=('cash', 'transaction',))
 
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     lesson = models.ForeignKey(to=Lesson, on_delete=models.SET_NULL, **NULLABLE)
     course = models.ForeignKey(to=Course, on_delete=models.SET_NULL, **NULLABLE)
-
