@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import sleep
 
 from django.core.management import BaseCommand
 
@@ -27,6 +28,7 @@ class Command(BaseCommand):
             payment_method='cash',
             lesson=default_lesson
         ).save()
+        sleep(10)
         Payment.objects.create(
             summ=10000,
             user=User.objects.get(email='admin@test.com'),
