@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from courses.models import NULLABLE
+from courses.models import NULLABLE, Lesson, Course
 
 
 class User(AbstractUser):
@@ -14,3 +14,13 @@ class User(AbstractUser):
     phone = models.IntegerField()
     city = models.CharField(max_length=50)
     avatar = models.ImageField(upload_to='users/', **NULLABLE)
+
+class Payment(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    summ = models.PositiveIntegerField()
+
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+
+    lesson = models.ForeignKey(to=Lesson, on_delete=models.SET_NULL, **NULLABLE)
+    course = models.ForeignKey(to=Course, on_delete=models.SET_NULL, **NULLABLE)
+
