@@ -24,10 +24,12 @@ class Command(BaseCommand):
         Payment.objects.create(
             summ=1000,
             user=User.objects.get(email='admin@test.com'),
+            payment_method='cash',
             lesson=default_lesson
         ).save()
         Payment.objects.create(
             summ=10000,
             user=User.objects.get(email='admin@test.com'),
+            payment_method='transaction',
             course=default_course
         ).save()

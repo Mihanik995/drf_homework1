@@ -19,7 +19,10 @@ class User(AbstractUser):
 class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     summ = models.PositiveIntegerField()
-    payment_method = models.CharField(choices=('cash', 'transaction',))
+    payment_method = models.CharField(choices=(('cash', 'By cash'),
+                                               ('transaction', 'Bank transaction'),
+                                               )
+                                      )
 
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
