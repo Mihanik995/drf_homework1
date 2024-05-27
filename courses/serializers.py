@@ -8,10 +8,15 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = '__all__'
 
+class LessonShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ('title', 'description',)
+
 
 class CourseSerializer(serializers.ModelSerializer):
     lessons_amount = serializers.SerializerMethodField()
-    lessons = LessonSerializer(source='lesson_set', many=True)
+    lessons = LessonShortSerializer(source='lesson_set', many=True, read_only=True)
     class Meta:
         model = Course
         fields = '__all__'
