@@ -6,5 +6,6 @@ class YoutubeLinkValidator:
         self.field = field
 
     def __call__(self, value):
-        if "www.youtube.com" not in value.get(self.field):
+        link = value.get(self.field)
+        if link and ("www.youtube.com" not in link):
             raise validators.ValidationError("You cannot add links to sources other than Youtube")
