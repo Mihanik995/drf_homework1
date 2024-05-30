@@ -1,8 +1,5 @@
-import rest_framework
 from rest_framework import test, status
-from rest_framework.reverse import reverse
 
-from courses.models import Course, Lesson
 from users.models import User
 
 
