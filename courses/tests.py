@@ -17,27 +17,16 @@ class LessonsTestCase(test.APITestCase):
 
         self.course = Course.objects.create(
             title='Default course',
-            description='Default course description'
+            description='Default course description',
+            owner=self.user
         )
 
         self.lesson = Lesson.objects.create(
             title='Default lesson',
             description='Default lesson description',
-            course=self.course
+            course=self.course,
+            owner=self.user
         )
-
-        # response = self.client.post('/courses/', data={
-        #     "title": "Default course'",
-        #     "description": 'Default course description'
-        # })
-        # self.course_id = response.json()['id']
-        #
-        # response = self.client.post('/lessons/new/', data={
-        #     "title": "Default course'",
-        #     "description": 'Default course description',
-        #     'course': self.course_id
-        # })
-        # self.lesson_id = response.json()['id']
 
     def test_list(self):
         response = self.client.get('/lessons/')
