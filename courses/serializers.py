@@ -20,6 +20,7 @@ class LessonShortSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     lessons_amount = serializers.SerializerMethodField()
     lessons = LessonShortSerializer(source='lesson_set', many=True, read_only=True)
+    you_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -29,3 +30,13 @@ class CourseSerializer(serializers.ModelSerializer):
         if instance.lesson_set:
             return instance.lesson_set.count()
         return 0
+
+    def get_you_subscribed(self, instance):
+        course_subscribers = [subscription.user for subscription in instance.subscription_set.all()]
+
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        return user in course_subscribers
