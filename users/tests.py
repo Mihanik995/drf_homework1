@@ -4,7 +4,7 @@ from courses.models import Course
 from users.models import User
 
 
-class PaymentTestCase(test.APITestCase):
+class SubscriptionTestCase(test.APITestCase):
     def setUp(self):
         self.user = User.objects.create(
             email='dafeault@email.com',
