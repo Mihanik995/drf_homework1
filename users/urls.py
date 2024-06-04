@@ -1,4 +1,5 @@
 from django.urls import path
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from users.apps import UsersConfig
@@ -6,6 +7,11 @@ from users.views import PaymentListAPIView, UserCreateAPIView, UserUpdateAPIView
     UserRetrieveAPIView, SubscriptionAPIView
 
 app_name = UsersConfig.name
+
+decorated_token_refresh_view = swagger_auto_schema(
+    method='post',
+    operation_id='user_token_refresh',
+)(TokenRefreshView.as_view())
 
 urlpatterns = [
     path('payments/', PaymentListAPIView.as_view(), name='payment_list'),
@@ -16,7 +22,7 @@ urlpatterns = [
     path('users/<int:pk>/delete/', UserDestroyAPIView.as_view(), name='delete_user'),
 
     path('users/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/token/refresh/', decorated_token_refresh_view, name='token_refresh'),
 
     path('users/subscription/', SubscriptionAPIView.as_view(), name='subscription'),
 ]

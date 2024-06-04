@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -46,6 +47,11 @@ class SubscriptionAPIView(APIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
 
+    @swagger_auto_schema(operation_id='user_subscription_create_or_delete',
+                         request_body=SubscriptionSerializer,
+                         responses={
+                             200: 'подписка удалена / подписка добавлена',
+                         })
     def post(self, *args, **kwargs):
         user = self.request.user
         course_id = self.request.data.get('course')
