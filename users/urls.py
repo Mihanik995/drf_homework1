@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from users.apps import UsersConfig
 from users.views import PaymentListAPIView, UserCreateAPIView, UserUpdateAPIView, UserDestroyAPIView, \
-    UserRetrieveAPIView, SubscriptionAPIView
+    UserRetrieveAPIView, SubscriptionAPIView, PaymentCreateAPIView
 
 app_name = UsersConfig.name
 
@@ -15,6 +15,7 @@ decorated_token_refresh_view = swagger_auto_schema(
 
 urlpatterns = [
     path('payments/', PaymentListAPIView.as_view(), name='payment_list'),
+    path('payments/new/', PaymentCreateAPIView.as_view(), name='new_payment'),
 
     path('users/new/', UserCreateAPIView.as_view(), name='register'),
     path('users/<int:pk>/', UserRetrieveAPIView.as_view(), name='user_detail'),

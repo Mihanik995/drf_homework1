@@ -21,6 +21,10 @@ class PaymentListAPIView(generics.ListAPIView):
     ordering_fields = ('date',)
     filterset_fields = ('course', 'lesson', 'payment_method',)
 
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserRegisterSerializer

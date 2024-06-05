@@ -25,7 +25,7 @@ class User(AbstractUser):
 
 class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    summ = models.PositiveIntegerField()
+    summ = models.PositiveIntegerField(**NULLABLE)
     payment_method = models.CharField(choices=(('cash', 'By cash'),
                                                ('transaction', 'Bank transaction'),
                                                )
@@ -35,6 +35,8 @@ class Payment(models.Model):
 
     lesson = models.ForeignKey(to=Lesson, on_delete=models.SET_NULL, **NULLABLE)
     course = models.ForeignKey(to=Course, on_delete=models.SET_NULL, **NULLABLE)
+
+    payment_url = models.TextField(**NULLABLE)
 
     def __str__(self):
         return f"{self.user}: {self.date} - {self.summ}"

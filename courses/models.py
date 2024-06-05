@@ -12,6 +12,9 @@ class Course(models.Model):
 
     owner = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
 
+    stripe_product_id = models.CharField(max_length=50, **NULLABLE)
+    stripe_price_id = models.CharField(max_length=50, **NULLABLE)
+
     def __str__(self):
         return self.title
 
@@ -24,6 +27,9 @@ class Lesson(models.Model):
 
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
     owner = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
+
+    stripe_product_id = models.CharField(max_length=50, **NULLABLE)
+    stripe_price_id = models.CharField(max_length=50, **NULLABLE)
 
     def __str__(self):
         return self.title
