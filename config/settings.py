@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
 
+    'django_celery_beat',
+
     'stripe',
 
     'users',
@@ -153,3 +155,9 @@ REST_FRAMEWORK = {
 }
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_TIMEZONE = "Australia/Tasmania"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

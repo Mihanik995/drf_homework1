@@ -18,6 +18,9 @@ coverage = "^7.5.3"
 drf-yasg = "^1.21.7"
 setuptools = "^70.0.0"
 stripe = "^9.9.0"
+celery = "^5.4.0"
+eventlet = "^0.36.1"
+django-celery-beat = "^2.6.0"
 
 
 [build-system]
