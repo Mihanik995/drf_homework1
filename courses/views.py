@@ -5,6 +5,7 @@ from courses.models import Course, Lesson
 from courses.paginators import CoursesPaginator
 from courses.permissions import IsModerator, IsOwner
 from courses.serializers import CourseSerializer, LessonSerializer
+from courses.tasks import send_update_notification
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -45,6 +46,16 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+        updated_lesson = self.get_object()
+        subscribed_clients = [subscription.user for subscription in updated_lesson.course.subscription_set.all()]
+        course_title = updated_lesson.course.title
+
+        for client in subscribed_clients:
+            send_update_notification.delay(course_title, client.email)
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
