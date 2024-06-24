@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "mihanik95"
+      POSTGRES_DB: "drf_homework1"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+
+  api:
+    build: .
+    restart: always
+    command: ['python', "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: .
+    restart: always
+    command: ["celery", "-A", "config", "worker", "--beat", "--scheduler", "django", "--loglevel=info"]
+    depends_on:
+      - redis
+
+volumes:
+  pgdata:
+    driver: local
