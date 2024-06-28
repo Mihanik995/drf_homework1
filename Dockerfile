@@ -2,11 +2,12 @@ FROM python:3
 
 WORKDIR /code
 
+RUN pip install --upgrade pip
 RUN pip install poetry
 
 COPY . /code
 
-RUN poetry export -f requirements.txt --without-hashes > requirements.txt
-RUN pip install -r requirements.txt
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-root
 
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "migrate"]
