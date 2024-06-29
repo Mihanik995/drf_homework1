@@ -9,5 +9,3 @@ COPY . /code
 
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-root
-
-CMD ["python", "manage.py", "migrate"]
